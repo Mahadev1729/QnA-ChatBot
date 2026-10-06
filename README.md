@@ -1,6 +1,11 @@
-# ⚡ QuickAnswer AI — Full-Stack ChatGPT-Style AI Platform
+# ⚡ QuickAnswer AI — Full-Stack ChatGPT-Style AI Platform & AnswerKit SDK
 
-**QuickAnswer AI** is a production-ready conversational AI assistant built with a high-performance **React 18 (Vite)** frontend, **FastAPI (Python 3.12)** backend, and persistent database storage (**TiDB Serverless / MySQL / SQLite3**). 
+[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![React](https://img.shields.io/badge/frontend-React%2018%20%2B%20Vite-61dafb.svg)](https://vitejs.dev/)
+[![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**QuickAnswer AI** is a production-ready conversational AI platform and developer toolkit built with a high-performance **React 18 (Vite)** frontend, **FastAPI (Python 3.12)** backend, persistent database storage (**TiDB Serverless / MySQL / SQLite3**), and **AnswerKit** — a standalone, async-first Python AI SDK.
 
 It features **Groq** ultra-fast LLM response streaming, **Google Serper** live web browsing with real-time citations, **Google OAuth 2.0 & JWT authentication**, **smart thread auto-titling**, **zero-cost browser-native voice dictation & text-to-speech**, and **100% responsive design across all devices**.
 
@@ -9,6 +14,7 @@ It features **Groq** ultra-fast LLM response streaming, **Google Serper** live w
 ## ✨ Key Features
 
 - ⚡ **Ultra-Fast LLM Reasoning**: Groq-powered response streaming (`openai/gpt-oss-20b`, `llama-3.3-70b-versatile`, etc.) with real-time Server-Sent Events (SSE).
+- 📦 **AnswerKit Python SDK**: Standalone, framework-independent async Python SDK included in the repo for building Q&A bots, CLIs, Discord bots, and LLM streaming services.
 - 🌐 **Live Web Search & Citations**: Google Serper integration automatically searches the live web for fresh facts, news, and technical documentation with source badges.
 - 🔑 **Google OAuth 2.0 & JWT Authentication**: 1-click **Sign in with Google** or secure Email/Password registration with PBKDF2 password hashing.
 - 🗄️ **Persistent Cloud Database (TiDB / MySQL / SQLite)**: Seamlessly connects to **TiDB Cloud Serverless** or **Aiven MySQL** with SSL, guaranteeing persistent user accounts and chat history across restarts.
@@ -24,6 +30,12 @@ It features **Groq** ultra-fast LLM response streaming, **Google Serper** live w
 
 ```
 QuickAnswer/
+├── answerkit/              # Standalone Python AI SDK (Groq, streaming, web search, fallback)
+│   ├── answerkit/          # Core SDK library modules (client, config, streaming, search)
+│   ├── examples/           # Standalone Python examples (basic, conversation, streaming, search)
+│   ├── tests/              # 100% mocked test suite
+│   ├── pyproject.toml      # Modern PEP 621 package specification
+│   └── README.md           # AnswerKit SDK documentation
 ├── backend/
 │   ├── main.py             # FastAPI server, CORS, Google OAuth, Auth routes, & SSE stream endpoints
 │   ├── agent.py            # LangChain Groq agent with Google Serper web search
@@ -52,6 +64,38 @@ QuickAnswer/
 ├── run_dev.py              # Local FastAPI development runner
 └── .env                    # Environment variables (API keys & DB connection)
 ```
+
+---
+
+## ⚡ AnswerKit Python SDK
+
+The project includes **[AnswerKit](answerkit/README.md)**, an open-source, framework-independent Python SDK for adding high-performance AI Q&A capabilities to any application.
+
+### Installation
+
+```bash
+# Install AnswerKit locally in editable mode
+pip install -e answerkit
+```
+
+### SDK Quick Start
+
+```python
+import asyncio
+from answerkit import AnswerKit
+
+async def main():
+    ai = AnswerKit(groq_api_key="your_groq_api_key")
+    
+    # Simple streaming Q&A
+    async for token in ai.stream("Explain quantum computing in simple terms"):
+        print(token, end="", flush=True)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+👉 See the full **[AnswerKit Documentation](answerkit/README.md)** for conversation history, web search, automatic model fallback cascades, prompt polishing, and framework recipes (FastAPI, Flask, CLI).
 
 ---
 
